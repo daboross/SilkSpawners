@@ -8,6 +8,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 public class SilkSpawnersSpawnerChangeEvent extends Event implements Cancellable {
+
     private static final HandlerList handlers = new HandlerList();
     private boolean cancelled;
     // Our objects
@@ -18,102 +19,111 @@ public class SilkSpawnersSpawnerChangeEvent extends Event implements Cancellable
     private CreatureSpawner spawner;
 
     /**
-     * This constructor should not be used anymore,
-     * because the new one carries information about the
-     * current entityID of the spawner block or item
+     * This constructor should not be used anymore, because the new one carries
+     * information about the current entityID of the spawner block or item
      *
-     * @deprecated use {@link #SilkSpawnersSpawnerChangeEvent(Player, Block, short, short)} instead.  
+     * @deprecated use
+     * {@link #SilkSpawnersSpawnerChangeEvent(Player, Block, short, short)}
+     * instead.
      */
     @Deprecated
     public SilkSpawnersSpawnerChangeEvent(Player player, Block block, short id) {
-	this.player = player;
-	this.block = block;
-	if (block != null) {
-	    this.spawner = (CreatureSpawner) block.getState();
-	}
-	this.id = id;
-	this.oldID = 0;
+        this.player = player;
+        this.block = block;
+        if (block != null) {
+            this.spawner = (CreatureSpawner) block.getState();
+        }
+        this.id = id;
+        this.oldID = 0;
     }
-    
+
     public SilkSpawnersSpawnerChangeEvent(Player player, Block block, short id, short oldID) {
-	this.player = player;
-	this.block = block;
-	if (block != null) {
-	    this.spawner = (CreatureSpawner) block.getState();
-	}
-	this.id = id;
-	this.oldID = oldID;
+        this.player = player;
+        this.block = block;
+        if (block != null) {
+            this.spawner = (CreatureSpawner) block.getState();
+        }
+        this.id = id;
+        this.oldID = oldID;
     }
 
     /**
      * Determine if the event is cancelled or not
+     *
      * @return yes or no
      */
     public boolean isCancelled() {
-	return this.cancelled;
+        return this.cancelled;
     }
 
     /**
      * Cancel the event
+     *
      * @param boolean whether the event should be cancelled or not
      */
     public void setCancelled(boolean cancel) {
-	this.cancelled = cancel;
+        this.cancelled = cancel;
     }
 
     /**
      * Get the player from this event
+     *
      * @return the player object
      */
     public Player getPlayer() {
-	return this.player;
+        return this.player;
     }
 
     /**
      * Get the block of this event
-     * @return the block - in this case a spawner; returns null when an egg is used
+     *
+     * @return the block - in this case a spawner; returns null when an egg is
+     * used
      */
     public Block getBlock() {
-	return this.block;
+        return this.block;
     }
 
     /**
      * Get the creature spawner of this event
+     *
      * @return the creature spawner; returns null when an egg is used
      */
     public CreatureSpawner getSpawner() {
-	return this.spawner;
+        return this.spawner;
     }
 
     /**
      * Get the entity ID (mob to spawn) from this event
+     *
      * @return the entity ID
      */
     public short getEntityID() {
-	return this.id;
+        return this.id;
     }
 
     /**
      * Sets the entityID of the spawner
+     *
      * @param short - the new entityID
      */
     public void setEntityID(short id) {
-	this.id = id;
+        this.id = id;
     }
-    
+
     /**
-     * Gets the old entityID of the spawner (item or block)
-     * May return 0 if the deprecated constructor is used!
+     * Gets the old entityID of the spawner (item or block) May return 0 if the
+     * deprecated constructor is used!
      */
     public short getOldEntityID() {
-	return this.oldID;
+        return this.oldID;
     }
 
     public HandlerList getHandlers() {
-	return handlers;
+        return handlers;
     }
 
     public static HandlerList getHandlerList() {
-	return handlers;
+        return handlers;
     }
 }
