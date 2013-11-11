@@ -71,7 +71,7 @@ public class CommentedConfiguration extends YamlConfiguration {
             // This tells if the specified path has already been commented
             boolean commentedPath = false;
             // This flags if the line is a node or unknown text.
-            boolean node = false;
+            boolean node;
             // The depth of the path. (number of words separated by periods - 1)
             int depth = 0;
 
@@ -87,8 +87,7 @@ public class CommentedConfiguration extends YamlConfiguration {
                     node = true;
 
                     // Grab the index of the end of the node name
-                    int index = 0;
-                    index = line.indexOf(": ");
+                    int index = line.indexOf(": ");
                     if (index < 0) {
                         index = line.length() - 1;
                     }
@@ -172,7 +171,6 @@ public class CommentedConfiguration extends YamlConfiguration {
                     if (comment != null) {
                         // Add the comment to the beginning of the current line
                         line = comment + System.getProperty("line.separator") + line + System.getProperty("line.separator");
-                        comment = null;
                         commentedPath = true;
                     } else {
                         // Add a new line as it is a node, but has no comment

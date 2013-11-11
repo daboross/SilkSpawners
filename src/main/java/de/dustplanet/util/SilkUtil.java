@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Level;
 import net.minecraft.server.v1_6_R3.EntityTypes;
 import net.minecraft.server.v1_6_R3.TileEntityMobSpawner;
 import org.bukkit.Bukkit;
@@ -97,7 +98,7 @@ public class SilkUtil {
     /**
      * Constructor to make your own SilkUtil instance
      *
-     * @param SilkSpawners instance
+     * @param instance The instance.
      */
     public SilkUtil(SilkSpawners instance) {
         getWorldGuard(instance);
@@ -250,7 +251,7 @@ public class SilkUtil {
         BlockState blockState = block.getState();
         if (!(blockState instanceof CreatureSpawner)) {
             // Call it only on CreatureSpawners
-            Bukkit.getLogger().warning("getSpawnerEntityID called on non-spawner block: " + block);
+            Bukkit.getLogger().log(Level.WARNING, "getSpawnerEntityID called on non-spawner block: {0}", block);
             return 0;
         }
         // Get our spawner;
@@ -267,7 +268,7 @@ public class SilkUtil {
                     return mobID2Eid.get(mobID);
                 }
             } catch (Exception e) {
-                Bukkit.getServer().getLogger().info("Reflection failed: " + e.getMessage());
+                Bukkit.getServer().getLogger().log(Level.INFO, "Reflection failed: {0}", e.getMessage());
                 e.printStackTrace();
             }
         }
@@ -287,7 +288,7 @@ public class SilkUtil {
         BlockState blockState = block.getState();
         // Call it only on CreatureSpawners
         if (!(blockState instanceof CreatureSpawner)) {
-            Bukkit.getLogger().warning("setSpawnerEntityID called on non-spawner block: " + block);
+            Bukkit.getLogger().log(Level.WARNING, "setSpawnerEntityID called on non-spawner block: {0}", block);
             return;
         }
         // Get out spawner;
@@ -320,7 +321,7 @@ public class SilkUtil {
                 return;
             } catch (Exception e) {
                 // Fallback to bukkit;
-                Bukkit.getServer().getLogger().info("Reflection failed: " + e.getMessage());
+                Bukkit.getServer().getLogger().log(Level.INFO, "Reflection failed: {0}", e.getMessage());
                 e.printStackTrace();
             }
         }
@@ -438,13 +439,13 @@ public class SilkUtil {
      */
     public void showAllCreatures(CommandSender sender) {
         // For each entry in the list
-        StringBuffer buf = new StringBuffer();
+        StringBuilder builder = new StringBuilder();
         for (String displayName : eid2DisplayName.values()) {
             displayName = displayName.replace(" ", "");
-            buf.append(displayName + ", ");
+            builder.append(displayName).append(", ");
         }
         // Strip last comma out
-        String message = buf.toString();
+        String message = builder.toString();
         message = message.substring(0, message.length() - ", ".length());
         sender.sendMessage(message);
     }
@@ -485,7 +486,7 @@ public class SilkUtil {
             }
         } // Fail
         catch (Exception e) {
-            Bukkit.getServer().getLogger().severe("Failed to dump entity map: " + e.getMessage());
+            Bukkit.getServer().getLogger().log(Level.SEVERE, "Failed to dump entity map: {0}", e.getMessage());
             e.printStackTrace();
         }
         return sortedMap;

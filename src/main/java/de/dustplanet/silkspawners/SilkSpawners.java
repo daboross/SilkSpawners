@@ -52,12 +52,14 @@ public class SilkSpawners extends JavaPlugin {
     public boolean usePermissions = true;
     public CommentedConfiguration config, localization, mobs;
     private File configFile, localizationFile, mobsFile;
-    public static final String COMPATIBLE_MINECRAFT_VERSION = "1.6.4";
+    public static final String COMPATIBLE_MINECRAFT_VERSION = "1.7.2";
 
-    public void onDisbale() {
+    @Override
+    public void onDisable() {
         su.clearAll();
     }
 
+    @Override
     public void onEnable() {
         // Make files and copy defaults
         initializeConfigs();
@@ -82,17 +84,6 @@ public class SilkSpawners extends JavaPlugin {
             }
         }
 
-        // Nicer ErrorLogger (can be disabled)
-        // http://forums.bukkit.org/threads/105321/
-        //	if (config.getBoolean("useErrorLogger", true)) {
-        //	    getLogger().info("ErrorLogger enabled");
-        //	    ErrorLogger.register(this, "SilkSpawners", "de.dustplanet.silkspawners", "http://dev.bukkit.org/server-mods/silkspawners/tickets/");
-        //	} else {
-        //	    getLogger().info("ErrorLogger disabled");
-        //	}
-        // Temp
-        getLogger().info("ErrorLogger is disabled, regardless of your settings to give the author enough time to update it!");
-        getLogger().info("This feature will be available again in the near future!");
         // Commands
         spawnerCommand = new SpawnerCommand(this, su);
         eggCommand = new EggCommand(this, su);
@@ -187,13 +178,13 @@ public class SilkSpawners extends JavaPlugin {
 
         // Load configs
         config = new CommentedConfiguration(configFile);
-        new Configuration(config, 1);
+        new Configuration(config).loadNum(1);
 
         localization = new CommentedConfiguration(localizationFile);
-        new Configuration(localization, 2);
+        new Configuration(localization).loadNum(2);
 
         mobs = new CommentedConfiguration(mobsFile);
-        new Configuration(mobs, 3);
+        new Configuration(mobs).loadNum(3);
 
         // We need to migrate the old mobs from config.yml to mobs.yml
         if (config.contains("creatures")) {
